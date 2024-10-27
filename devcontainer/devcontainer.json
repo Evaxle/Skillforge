@@ -1,0 +1,24 @@
+{
+    "name": "Skillforge",
+    "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:0-18",
+    "postCreateCommand": "mkdir -p public && echo '<!DOCTYPE html><html><head><title>My Webpage</title></head><body><h1>Hello, World!</h1></body></html>' > public/index.html && echo 'body { font-family: Arial, sans-serif; }' > public/styles.css && echo 'console.log(\"Hello, World!\");' > public/script.js",
+    "forwardPorts": [3000],
+    "portsAttributes": {
+      "3000": {
+        "label": "Web Preview",
+        "onAutoForward": "openPreview"
+      }
+    },
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "workbench.colorTheme": "Default Dark+"
+        },
+        "extensions": [
+          "esbenp.prettier-vscode",
+          "dbaeumer.vscode-eslint"
+        ]
+      }
+    }
+  }
+  

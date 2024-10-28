@@ -1,11 +1,12 @@
-# Use the official Nginx image as the base image
 FROM nginx:alpine
 
-# Copy all files from the local 'public' folder to Nginx's default static files location
+# Copy your static files to Nginx's default location
 COPY public /usr/share/nginx/html
 
-# Expose the default Nginx port (80) for web traffic
-EXPOSE 80
+# Change the default port in the Nginx configuration
+RUN sed -i 's/listen 80;/listen 8000;/' /etc/nginx/conf.d/default.conf
 
-# Start Nginx when the container launches
+# Expose the new port
+EXPOSE 8000
+
 CMD ["nginx", "-g", "daemon off;"]

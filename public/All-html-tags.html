@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillForge</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: #e8e8e8;
+        }
+
+        .top-bar {
+            background: linear-gradient(45deg, #ff4500, #ff8c00);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .content {
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #ff4500;
+            margin-bottom: 20px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 400px; /* Adjust height as needed */
+            border: 1px solid #ff8c00; /* Border for better visibility */
+            border-radius: 8px;
+            padding: 10px;
+            background-color: #333;
+        }
+
+        .tag-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            margin: 5px 0;
+            background-color: #444;
+            border-radius: 8px;
+        }
+
+        .tag-item p {
+            color: #ff8c00;
+            margin: 0; /* Remove margin for better alignment */
+        }
+
+        .info-btn, .copy-btn {
+            background-color: #ff4500;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .info-btn:hover, .copy-btn:hover {
+            background-color: #ff8c00;
+        }
+
+        .loading {
+            display: none; /* Initially hidden */
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed; /* Changed to fixed to cover the viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2; /* Ensure it appears above other content */
+        }
+
+        .popup-content {
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px; /* Adjusted for smaller box */
+            text-align: center;
+            position: relative; /* For positioning close button */
+        }
+
+        .popup-content h3 {
+            color: #ff8c00;
+            margin-bottom: 15px;
+        }
+
+        .popup-content p {
+            font-size: 1rem;
+            color: #e8e8e8;
+            margin: 0; /* Remove margin */
+        }
+
+        .close-btn {
+            color: #ff8c00;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" href="styles.css">
+    <div class="top-bar">
+        <h1 onclick="href">SkillForge</h1>
+        <p>SkillForge For All Developers</p>
+    </div>
+    <div class="container">
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="All-html-tags.html">All HTML Tags</a></li>
+            </ul>
+        </nav><br>
+        <div class="content">
+            <h2>SkillForge All HTML Tags</h2>
+            <p>This is a list of all the html tags and what they do</p>
+            <div class="loading" id="loading">Loading tags...</div>
+            <div class="tag-list" id="tag-list">
+                <!-- Tag items will be dynamically generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup" id="popup">
+        <div class="popup-content" id="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h3 id="popup-title">Popup Title</h3>
+            <p id="popup-description"></p>
+            <hr>
+            <pre id="popup-example"></pre>
+        </div>
+    </div>
+
+    <script>
+        let allTags = []; // Store all tags
+
+        // Function to fetch tags from the JSON file
+        async function fetchTags() {
+            document.getElementById('loading').style.display = 'block'; // Show loading animation
+            try {
+                const response = await fetch('alltags.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                allTags = await response.json();
+                generateTagItems(); // Generate tag items after fetching
+            } catch (error) {
+                console.error('Error fetching tags:', error);
+                alert('Failed to load tags. Please check the console for more details.'); // Alert for user
+            } finally {
+                document.getElementById('loading').style.display = 'none'; // Hide loading animation
+            }
+        }
+
+        // Function to dynamically generate tag items
+        function generateTagItems() {
+            const tagList = document.getElementById('tag-list');
+            tagList.innerHTML = ''; // Clear existing items before generating
+
+            allTags.forEach(({ title, description, example }) => {
+                const tagItem = document.createElement('div');
+                tagItem.className = 'tag-item';
+                tagItem.innerHTML = `
+                    <div>
+                        <p>${title}</p>
+                    </div>
+                    <div>
+                        <button class="info-btn" onclick="showInfo('${title.replace(/'/g, "\\'")}', '${description.replace(/'/g, "\\'")}', '${example.replace(/'/g, "\\'")}')">Info</button>
+                        <button class="copy-btn" onclick="copyTag('${title}')">Copy</button>
+                    </div>
+                `;
+                tagList.appendChild(tagItem);
+            });
+        }
+
+        // Function to show popup
+        function showInfo(title, description, example) {
+            document.getElementById('popup-title').innerHTML = title;
+            document.getElementById('popup-description').innerHTML = description;
+            document.getElementById('popup-example').innerHTML = example;
+
+            // Show the popup
+            document.getElementById('popup').style.display = 'flex'; // Change to flex to center
+        }
+
+        // Function to close popup
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        // Function to copy tag
+        function copyTag(tag) {
+            navigator.clipboard.writeText(tag)
+                .then(() => {
+                    alert(`Copied: ${tag}`);
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy tag. Please try again.');
+                });
+        }
+
+        // Close popup on outside click
+        document.addEventListener('click', (event) => {
+            const popup = document.getElementById('popup');
+            const popupContent = document.getElementById('popup-content');
+            if (popup.style.display === 'block' && !popupContent.contains(event.target)) {
+                closePopup();
+            }
+        });
+
+        // Fetch tags when the page loads
+        window.onload = fetchTags;
+    </script>
+</body>
+</html>

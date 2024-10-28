@@ -1,0 +1,260 @@
+[
+    {
+        "tag": "html",
+        "title": "HTML Element",
+        "description": "The root element of an HTML page. It wraps all the content on the page.",
+        "example": "<html></html>"
+    },
+    {
+        "tag": "head",
+        "title": "Head Element",
+        "description": "Contains meta-information about the document, such as the title and links to stylesheets.",
+        "example": "<head><title>Page Title</title></head>"
+    },
+    {
+        "tag": "title",
+        "title": "Title Element",
+        "description": "Defines the title of the document, which appears in the browser tab.",
+        "example": "<title>My Page Title</title>"
+    },
+    {
+        "tag": "body",
+        "title": "Body Element",
+        "description": "Contains the content of the document, such as text, images, and links.",
+        "example": "<body><h1>Hello, World!</h1></body>"
+    },
+    {
+        "tag": "h1",
+        "title": "Heading 1 Element",
+        "description": "Defines the most important heading. There are six levels of headings (h1 to h6).",
+        "example": "<h1>This is a Heading</h1>"
+    },
+    {
+        "tag": "h2",
+        "title": "Heading 2 Element",
+        "description": "Defines a second-level heading.",
+        "example": "<h2>This is a Subheading</h2>"
+    },
+    {
+        "tag": "p",
+        "title": "Paragraph Element",
+        "description": "Defines a block of text, typically used for regular content.",
+        "example": "<p>This is a paragraph.</p>"
+    },
+    {
+        "tag": "a",
+        "title": "Anchor Element",
+        "description": "Defines a hyperlink that links to another page or resource.",
+        "example": "<a href='https://www.example.com'>This is a link</a>"
+    },
+    {
+        "tag": "img",
+        "title": "Image Element",
+        "description": "Embeds an image in the document. It is a self-closing tag.",
+        "example": "<img src='image.jpg' alt='An image'>"
+    },
+    {
+        "tag": "div",
+        "title": "Division Element",
+        "description": "Defines a division or section in the document. It is often used as a container for other elements.",
+        "example": "<div>This is a division.</div>"
+    },
+    {
+        "tag": "span",
+        "title": "Span Element",
+        "description": "Defines a section in a document for styling purposes. It is an inline element.",
+        "example": "<span style='color:red;'>This is a red span.</span>"
+    },
+    {
+        "tag": "ul",
+        "title": "Unordered List Element",
+        "description": "Defines a list of items in no particular order. Each item is defined using the <li> tag.",
+        "example": "<ul><li>Item 1</li><li>Item 2</li></ul>"
+    },
+    {
+        "tag": "ol",
+        "title": "Ordered List Element",
+        "description": "Defines a list of items in a specific order. Each item is defined using the <li> tag.",
+        "example": "<ol><li>First item</li><li>Second item</li></ol>"
+    },
+    {
+        "tag": "li",
+        "title": "List Item Element",
+        "description": "Defines an item in a list. It can be used inside <ul> or <ol>.",
+        "example": "<li>This is a list item.</li>"
+    },
+    {
+        "tag": "table",
+        "title": "Table Element",
+        "description": "Defines a table. Tables consist of rows and columns.",
+        "example": "<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>"
+    },
+    {
+        "tag": "tr",
+        "title": "Table Row Element",
+        "description": "Defines a row in a table.",
+        "example": "<tr><td>Row 1, Cell 1</td></tr>"
+    },
+    {
+        "tag": "td",
+        "title": "Table Data Element",
+        "description": "Defines a cell in a table. It must be inside a <tr>.",
+        "example": "<td>This is a table cell.</td>"
+    },
+    {
+        "tag": "th",
+        "title": "Table Header Element",
+        "description": "Defines a header cell in a table. It is typically bold and centered.",
+        "example": "<th>This is a header cell.</th>"
+    },
+    {
+        "tag": "form",
+        "title": "Form Element",
+        "description": "Defines an HTML form for user input.",
+        "example": "<form action='/submit' method='post'><input type='text' name='username'></form>"
+    },
+    {
+        "tag": "input",
+        "title": "Input Element",
+        "description": "Defines an input field where the user can enter data.",
+        "example": "<input type='text' placeholder='Enter your name'>"
+    },
+    {
+        "tag": "button",
+        "title": "Button Element",
+        "description": "Defines a clickable button.",
+        "example": "<button type='button'>Click Me!</button>"
+    },
+    {
+        "tag": "label",
+        "title": "Label Element",
+        "description": "Defines a label for an <input> element.",
+        "example": "<label for='username'>Username:</label>"
+    },
+    {
+        "tag": "select",
+        "title": "Select Element",
+        "description": "Defines a dropdown list.",
+        "example": "<select><option value='1'>Option 1</option><option value='2'>Option 2</option></select>"
+    },
+    {
+        "tag": "option",
+        "title": "Option Element",
+        "description": "Defines an option in a dropdown list or <select> element.",
+        "example": "<option value='1'>Option 1</option>"
+    },
+    {
+        "tag": "textarea",
+        "title": "Textarea Element",
+        "description": "Defines a multi-line text input control.",
+        "example": "<textarea rows='4' cols='50'>This is a textarea.</textarea>"
+    },
+    {
+        "tag": "br",
+        "title": "Line Break Element",
+        "description": "Inserts a single line break. It is a self-closing tag.",
+        "example": "<br>"
+    },
+    {
+        "tag": "hr",
+        "title": "Horizontal Rule Element",
+        "description": "Creates a thematic break or horizontal line in the document.",
+        "example": "<hr>"
+    },
+    {
+        "tag": "strong",
+        "title": "Strong Element",
+        "description": "Defines important text, typically displayed as bold.",
+        "example": "<strong>This is important text.</strong>"
+    },
+    {
+        "tag": "em",
+        "title": "Emphasis Element",
+        "description": "Defines emphasized text, typically displayed as italic.",
+        "example": "<em>This text is emphasized.</em>"
+    },
+    {
+        "tag": "blockquote",
+        "title": "Blockquote Element",
+        "description": "Defines a section that is quoted from another source.",
+        "example": "<blockquote>This is a quote.</blockquote>"
+    },
+    {
+        "tag": "code",
+        "title": "Code Element",
+        "description": "Defines a fragment of computer code.",
+        "example": "<code>console.log('Hello, World!');</code>"
+    },
+    {
+        "tag": "pre",
+        "title": "Preformatted Text Element",
+        "description": "Defines preformatted text, which is shown in a fixed-width font.",
+        "example": "<pre>This is preformatted text.</pre>"
+    },
+    {
+        "tag": "svg",
+        "title": "SVG Element",
+        "description": "Defines an SVG (Scalable Vector Graphics) container.",
+        "example": "<svg width='100' height='100'><circle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /></svg>"
+    },
+    {
+        "tag": "canvas",
+        "title": "Canvas Element",
+        "description": "Used to draw graphics on the fly via scripting (usually JavaScript).",
+        "example": "<canvas id='myCanvas' width='200' height='100'></canvas>"
+    },
+    {
+        "tag": "video",
+        "title": "Video Element",
+        "description": "Defines a video or movie in the document.",
+        "example": "<video controls><source src='movie.mp4' type='video/mp4'>Your browser does not support the video tag.</video>"
+    },
+    {
+        "tag": "audio",
+        "title": "Audio Element",
+        "description": "Defines sound content in the document.",
+        "example": "<audio controls><source src='audio.mp3' type='audio/mpeg'>Your browser does not support the audio tag.</audio>"
+    },
+    {
+        "tag": "iframe",
+        "title": "IFrame Element",
+        "description": "Defines an inline frame, which is used to embed another document within the current HTML document.",
+        "example": "<iframe src='https://www.example.com' width='300' height='200'></iframe>"
+    },
+    {
+        "tag": "link",
+        "title": "Link Element",
+        "description": "Defines the relationship between the current document and an external resource (most used to link stylesheets).",
+        "example": "<link rel='stylesheet' href='styles.css'>"
+    },
+    {
+        "tag": "meta",
+        "title": "Meta Element",
+        "description": "Defines metadata about the HTML document. It is a self-closing tag.",
+        "example": "<meta charset='UTF-8'>"
+    },
+    {
+        "tag": "script",
+        "title": "Script Element",
+        "description": "Defines a client-side script, such as JavaScript.",
+        "example": "<script src='script.js'></script>"
+    },
+    {
+        "tag": "style",
+        "title": "Style Element",
+        "description": "Defines style information for a document. It is used for CSS.",
+        "example": "<style>body { background-color: lightblue; }</style>"
+    },
+    {
+        "tag": "noscript",
+        "title": "NoScript Element",
+        "description": "Defines an alternate content to be displayed when the script is not supported or disabled.",
+        "example": "<noscript>Your browser does not support JavaScript!</noscript>"
+    },
+    {
+        "tag": "meta",
+        "title": "Meta Element",
+        "description": "Defines metadata about the HTML document, such as character set and author.",
+        "example": "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+    }
+]

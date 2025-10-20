@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Raw Code Editor</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="editorstyles.css">
+  <script src="editorscript.js" defer></script>
+</head>
+<body class="raw-editor">
+  <header class="top-bar" role="banner">
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button id="saveBtn" aria-label="Save">Save</button>
+        <button id="saveAsBtn" aria-label="Save As">Save As</button>
+        <button id="openFileBtn" aria-label="Open File">Open</button>
+      </div>
+      <div class="toolbar-center" aria-hidden>
+        <strong class="brand">Skillforge</strong>
+        <span class="subtitle">— Live Code Editor</span>
+      </div>
+      <div class="toolbar-right">
+        <button id="runHtmlBtn" aria-label="Run HTML">Run HTML</button>
+        <button id="runJsBtn" aria-label="Run JavaScript">Run JS</button>
+        <button id="runPythonBtn" aria-label="Run Python">Run Py</button>
+        <button id="viewHistoryBtn" aria-label="History">History</button>
+        <button id="settingsBtn" aria-label="Settings">Settings</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Open files"></nav>
+
+  <main class="editor-wrapper" id="app">
+    <section class="editor-area">
+      <div class="editor-panel card">
+        <div class="editor-top">
+          <div class="file-info">
+            <div id="langDisplay" class="lang">Language: text</div>
+            <select id="langSelector" aria-label="Select language">
+              <option value="text">Text</option>
+              <option value="html">HTML</option>
+              <option value="js">JavaScript</option>
+              <option value="python">Python</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="editor-container">
+          <aside class="line-numbers" id="lineNumbers" aria-hidden></aside>
+          <textarea id="editor" spellcheck="false" aria-label="Code editor"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <div class="preview-area">
+      <div class="preview-panel card">
+        <div class="preview-top">
+          <div class="preview-actions">
+            <button id="togglePreviewBtn" aria-pressed="false">Toggle Preview</button>
+          </div>
+        </div>
+        <div class="preview-body">
+          <iframe id="livePreview" title="Live preview" sandbox="allow-scripts allow-forms"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="resizer" title="Drag to resize" aria-hidden="true"></div>
+  </main>
+
+  <footer class="footer-bar" role="contentinfo">
+    <div class="footer-left">Use Ctrl+S to save · Ctrl+O to open · Ctrl+1/2/3 to run</div>
+    <div class="footer-right">
+      <button class="lock-btn" title="Lock editor">🔒</button>
+      <button class="console-btn" title="Open console">🖥️</button>
+    </div>
+  </footer>
+</body>
+</html>

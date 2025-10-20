@@ -1,0 +1,51 @@
+// Responsive SCSS helpers for SkillForge
+// This file contains variables and mixins to produce fluid scaling
+// across screen sizes. It's provided as source. The compiled CSS
+// equivalent is available at ../css/responsive.css and is what the
+// site uses directly (no build step required).
+
+$min-btn-pad: 6px;
+$max-btn-pad: 14px;
+$min-font: 12px;
+$max-font: 18px;
+$min-linecol: 48px;
+$max-linecol: 120px;
+
+// Mixin for fluid value using clamp(min, vw-based, max)
+@mixin fluid($min, $vw, $max) {
+  clamp(#{$min}, #{$vw}, #{$max});
+}
+
+:root {
+  --rf-gap: #{clamp(6px, 1vw, 12px)};
+  --rf-btn-pad: #{clamp($min-btn-pad, 1vw, $max-btn-pad)};
+  --rf-btn-font: #{clamp($min-font, 1.1vw, $max-font)};
+  --rf-input-font: #{clamp(13px, 1vw, 16px)};
+  --rf-padding: #{clamp(12px, 2vw, 40px)};
+  --rf-linewidth: #{clamp($min-linecol, 6vw, $max-linecol)};
+  --rf-radius: 8px;
+}
+
+// Button scaling
+button, .nav-bar a, .info-btn, .copy-btn {
+  padding: var(--rf-btn-pad);
+  font-size: var(--rf-btn-font);
+  border-radius: var(--rf-radius);
+}
+
+// Inputs
+input[type="text"], textarea, .data-url {
+  font-size: var(--rf-input-font);
+  padding: calc(var(--rf-btn-pad) - 2px);
+}
+
+/* Layout hints */
+.nav-bar { width: clamp(180px, 16vw, 300px); }
+.line-numbers { min-width: var(--rf-linewidth); }
+
+// Small screens: stack nav above content
+@media (max-width: 720px) {
+  .container { flex-direction: column; }
+  .nav-bar { width: 100%; border-right: none; border-bottom: 3px solid var(--accent); }
+  .content { padding: 1rem; }
+}

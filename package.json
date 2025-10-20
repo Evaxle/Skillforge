@@ -1,0 +1,20 @@
+{
+  "name": "skillforge-site",
+  "version": "1.0.0",
+  "description": "Static site for Skillforge (collection of small developer tools)",
+  "private": true,
+  "scripts": {
+    "dev": "npx http-server public -p 8000 --silent",
+    "serve": "npx http-server public -p 8000",
+    "build-image": "docker build -t skillforge:latest .",
+    "start-container": "docker run --rm -p 8000:8000 skillforge:latest",
+    "format": "prettier --write \"**/*.{html,css,js,json,md}\"",
+    "lint": "echo 'no linter configured' && exit 0"
+  },
+  "author": "Evaxle",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "prettier": "^3.0.0"
+  }
+}

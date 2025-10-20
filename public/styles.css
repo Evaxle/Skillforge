@@ -1,4 +1,3 @@
-/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +10,89 @@ body {
     color: #e8e8e8;
 }
 
-/* Top Bar */
+body::before,
+body::after{
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+body::before{
+    background: radial-gradient(800px 400px at 10% 20%, rgba(255,69,0,0.08), transparent 12%),
+                radial-gradient(600px 300px at 90% 80%, rgba(255,140,0,0.06), transparent 12%);
+    filter: blur(40px) saturate(120%);
+    opacity: 0.95;
+}
+body::after{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+}
+
+:root{
+    --bg:#121212;
+    --panel:#0f0f0f;
+    --accent:#ff4500;
+    --accent-2:#ff8c00;
+    --muted:#999;
+}
+:root{
+    --container-max: 1200px;
+    --card-bg: rgba(255,255,255,0.03);
+    --glass-blur: 8px;
+}
+
+button, .nav-bar a, .info-btn, .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    background: linear-gradient(90deg, rgba(255,69,0,0.95), rgba(255,140,0,0.95));
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(255,69,0,0.12);
+    transition: transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .18s ease, opacity .12s;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover, .nav-bar a:hover, .info-btn:hover, .copy-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255,69,0,0.18);
+}
+
+button:active, .nav-bar a:active, .info-btn:active, .copy-btn:active {
+    transform: translateY(0) scale(.99);
+}
+
+button[disabled], button:disabled { opacity: .6; cursor: not-allowed; transform:none; box-shadow:none; }
+
+input[type="text"], input[type="file"], textarea, .data-url, .tag-list {
+    background: #0f0f0f;
+    color: #e8e8e8;
+    border: 1px solid rgba(255,69,0,0.08);
+    padding: 10px;
+    border-radius: 8px;
+    transition: box-shadow .18s ease, border-color .18s ease, transform .12s ease;
+    outline: none;
+}
+
+textarea { resize: vertical; min-height:120px; }
+
+input:focus, textarea:focus, .data-url:focus { box-shadow: 0 6px 20px rgba(255,69,0,0.12); border-color: var(--accent); transform: translateY(-2px); }
+
+.typing { animation: typingGlow .6s ease; box-shadow: 0 8px 30px rgba(255,140,0,0.12) !important; }
+@keyframes typingGlow { 0% { box-shadow: 0 0 0 rgba(255,140,0,0); } 50% { box-shadow: 0 8px 30px rgba(255,140,0,0.15); } 100% { box-shadow: 0 0 0 rgba(255,140,0,0); } }
+
+.ripple { position: absolute; border-radius: 50%; transform: scale(0); background: rgba(255,255,255,0.18); animation: rippleAnim .6s linear; pointer-events: none; }
+@keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+.nav-bar a { padding: 10px 12px; border-radius:8px; display:block; }
+
+
 .top-bar {
     background: linear-gradient(45deg, #ff4500, #ff8c00);
     color: #fff;
@@ -21,6 +102,13 @@ body {
     top: 0;
     animation: flame 3s infinite alternate ease-in-out;
     z-index: 1;
+}
+
+/* When on Raw Editor page, keep the main top-bar compact to avoid visual clash
+     with the editor's own top bar. */
+body.raw-editor > .top-bar {
+    padding: 12px 16px;
+    background: linear-gradient(90deg, rgba(255,69,0,0.95), rgba(255,140,0,0.95));
 }
 
 .top-bar h1 {
@@ -33,25 +121,23 @@ body {
     margin-top: 5px;
 }
 
-/* Flame Animation */
 @keyframes flame {
     0% { background: linear-gradient(45deg, #ff4500, #ff8c00); }
     50% { background: linear-gradient(45deg, #ff8c00, #ff4500); }
     100% { background: linear-gradient(45deg, #ff4500, #ff8c00); }
 }
 
-/* Container */
 .container {
     display: flex;
     min-height: 100vh;
 }
 
-/* Navigation Bar */
 .nav-bar {
     width: 220px;
-    background-color: #333;
-    padding: 20px;
-    border-right: 3px solid #ff4500;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.16));
+    backdrop-filter: blur(var(--glass-blur));
+    padding: 24px 20px;
+    border-right: 1px solid rgba(255,69,0,0.08);
     display: flex;
     flex-direction: column;
 }
@@ -81,32 +167,44 @@ body {
     background: linear-gradient(45deg, #ff4500, #b22222);
 }
 
-/* Content Area */
 .content {
     flex-grow: 1;
-    padding: 40px;
+    padding: 48px 32px;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    position: relative;
+    z-index: 1; /* above background blobs */
 }
 
 .content h2 {
-    font-size: 2rem;
-    color: #ff4500;
-    margin-bottom: 20px;
+    font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+    color: var(--accent);
+    margin-bottom: 18px;
 }
 
 .content p {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 1.2vw, 1.15rem);
     line-height: 1.6;
-    max-width: 600px;
+    max-width: 72ch;
 }
 
-/* Button Animation */
+.card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 6px 24px rgba(2,6,23,0.6);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.nav-bar a { margin-bottom: 8px; }
 @keyframes buttonGlow {
     0% { box-shadow: 0 0 5px rgba(255, 69, 0, 0.7); }
     50% { box-shadow: 0 0 15px rgba(255, 69, 0, 0.9); }
     100% { box-shadow: 0 0 5px rgba(255, 69, 0, 0.7); }
 }
 
-/* Add Fire Effect for Active Buttons */
 .nav-bar a:active {
     animation: buttonGlow 1s ease infinite;
 }
+
+@import url('css/responsive.css');

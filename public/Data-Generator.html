@@ -3,136 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <div id="allCode">
-    <title>Data URL Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        textarea {
-            width: 100%;
-            height: 200px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            margin-right: 5px;
-            margin-top: 5px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .data-url-container {
-            max-width: 100%;
-            overflow-x: auto;
-            border: 1px solid black;
-            height: 200px;
-        }
-    </style>
+    <link rel="icon" href="Favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <title>SkillForge — Data Generator</title>
 </head>
 <body>
-<div class="container">
-    <h1 style="text-align: center">Data URL Generator</h1>
-    <p style="text-align: center">Enter your HTML code below:</p>
-    <button onclick="pasteFromClipboard()">Paste</button>
-    <input type="file" id="fileInput" accept=".txt,.html" onchange="handleFileUpload()">
-    <textarea id="htmlCode" oninput="generateDataUrl()"></textarea>
-    <div class="data-url-container">
-        <p id="dataUrl" class="data-url"></p>
+    <div class="top-bar">
+        <h1>SkillForge</h1>
+        <p>SkillForge For All Developers</p>
     </div>
-    <div style="text-align: center">
-    <button id="copyButton" onclick="copyToClipboard()" disabled>Copy</button><br>
-    <button onclick="saveDataUrl()">Save</button>
-    </div>
-</div>
+    <div class="container">
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Raw-Editor.html">Raw Editor</a></li>
+                <li><a href="All-html-tags.html">All HTML Tags</a></li>
+                <li><a href="comment-remover.html">Comment Remover</a></li>
+                <li><a href="Data-Generator.html">Data Generator</a></li>
+            </ul>
+        </nav>
 
-<script>
+        <div class="content">
+            <h2>Data URL Generator</h2>
+            <p>Enter your HTML code below to create a data URL.</p>
+
+            <div style="margin-bottom:8px;">
+                <button id="pasteBtn">Paste</button>
+                <input type="file" id="fileInput" accept=".txt,.html">
+            </div>
+            <textarea id="htmlCode"></textarea>
+            <div class="data-url-container"><p id="dataUrl" class="data-url"></p></div>
+            <div style="text-align:center;margin-top:8px;">
+                <button id="copyButton" disabled>Copy</button>
+                <button id="saveButton">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const htmlCode = document.getElementById('htmlCode');
+    const dataUrlP = document.getElementById('dataUrl');
+    const copyButton = document.getElementById('copyButton');
+    const fileInput = document.getElementById('fileInput');
+    const pasteBtn = document.getElementById('pasteBtn');
+    const saveButton = document.getElementById('saveButton');
+
     function generateDataUrl() {
-        var htmlCode = document.getElementById('htmlCode').value;
-        var encodedHtml = encodeURIComponent(htmlCode);
-        var dataUrl = 'data:text/html;charset=utf-8,' + encodedHtml;
-        document.getElementById('dataUrl').innerText = dataUrl;
-        document.getElementById('copyButton').disabled = false;
+        const encodedHtml = encodeURIComponent(htmlCode.value);
+        const dataUrl = 'data:text/html;charset=utf-8,' + encodedHtml;
+        dataUrlP.innerText = dataUrl;
+        copyButton.disabled = false;
     }
 
     function copyToClipboard() {
-        var dataUrl = document.getElementById('dataUrl').innerText;
-        var tempInput = document.createElement('input');
-        tempInput.value = dataUrl;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-        alert('Data URL copied to clipboard!');
+        navigator.clipboard.writeText(dataUrlP.innerText).then(()=> alert('Data URL copied to clipboard!'))
+            .catch(()=> alert('Failed to copy'));
     }
 
     async function pasteFromClipboard() {
         try {
             const text = await navigator.clipboard.readText();
-            document.getElementById('htmlCode').value = text;
-            generateDataUrl();
-        } catch (err) {
-            alert('Failed to paste from clipboard');
-        }
+            htmlCode.value = text; generateDataUrl();
+        } catch (err) { alert('Failed to paste from clipboard'); }
     }
 
     function handleFileUpload() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('htmlCode').value = e.target.result;
-                generateDataUrl();
-            }
-            reader.readAsText(file);
-        }
+        const file = fileInput.files[0]; if (!file) return;
+        const reader = new FileReader(); reader.onload = e=>{ htmlCode.value = e.target.result; generateDataUrl(); }; reader.readAsText(file);
     }
 
     function saveDataUrl() {
-        const dataUrl = document.getElementById('dataUrl').innerText;
-        const blob = new Blob([dataUrl], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'data-url.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        const blob = new Blob([dataUrlP.innerText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'data-url.txt'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
     }
-</script>
-</div>
-<script>
 
-  if (window.top === window.self) {
-    const html = document.getElementById('allCode').innerHTML;
-    const newWindow = window.open('about:blank', '_blank');
+    pasteBtn.addEventListener('click', pasteFromClipboard);
+    fileInput.addEventListener('change', handleFileUpload);
+    htmlCode.addEventListener('input', generateDataUrl);
+    copyButton.addEventListener('click', copyToClipboard);
+    saveButton.addEventListener('click', saveDataUrl);
+    </script>
 
-    if (newWindow) {
-        newWindow.document.write(html);
-        newWindow.document.close();
-        window.close();
-    }
-}
+<script src="js/ui-animations.js"></script>
 
-</script>
 </body>
 </html>
 

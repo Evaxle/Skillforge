@@ -1,0 +1,21 @@
+.comment-remover { display: flex; gap: var(--rf-gap, 12px); align-items: stretch; }
+#leftCol { flex: 2 1 60%; }
+#rightCol { flex: 1 1 35%; padding-left: 12px; }
+
+#leftCol, #rightCol { background: var(--card-bg, rgba(255,255,255,0.02)); border-radius: 12px; padding: 14px; }
+
+textarea#codeInput { width: 100%; height: calc(50vh - 80px); min-height: 160px; background: #141414; color: #eee; border: 1px solid rgba(255,69,0,0.06); padding: 10px; font-family: monospace; border-radius: 8px; }
+
+#output { background: #0f0f0f; color: #ddd; padding: 10px; border: 1px solid rgba(255,69,0,0.04); margin-top: 8px; white-space: pre-wrap; border-radius: 8px; }
+
+#commentsLog, #functionsLog { font-family: monospace; white-space: pre-wrap; max-height: 40vh; overflow: auto; }
+
+#detected { margin-bottom: 10px; font-weight: 700; color: var(--accent); }
+
+button { margin-top: 8px; }
+
+@media (max-width: 800px) {
+	.comment-remover { flex-direction: column; }
+	#leftCol, #rightCol { padding: 12px; }
+	textarea#codeInput { height: 220px; }
+}

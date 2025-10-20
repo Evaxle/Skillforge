@@ -1,187 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Code Analyzer & Comment Remover</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #1e1e1e;
-  color: #eee;
-  display: flex;
-  height: 100vh;
-}
-#left, #right {
-  padding: 20px;
-  overflow-y: auto;
-}
-#left {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-}
-#right {
-  flex: 1;
-  border-left: 1px solid #333;
-}
-textarea {
-  background: #252526;
-  color: #eee;
-  border: 1px solid #444;
-  width: 100%;
-  height: 200px;
-  padding: 10px;
-  font-family: monospace;
-  font-size: 14px;
-}
-button {
-  background: #007acc;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  margin-top: 10px;
-  cursor: pointer;
-}
-button:hover {
-  background: #005a9e;
-}
-#detected {
-  margin-bottom: 10px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-}
-#output {
-  background: #252526;
-  border: 1px solid #444;
-  padding: 10px;
-  margin-top: 10px;
-  white-space: pre-wrap;
-  font-family: monospace;
-}
-#commentsLog, #functionsLog {
-  font-family: monospace;
-  white-space: pre-wrap;
-  margin-top: 10px;
-}
-h3 { margin-top: 20px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <title>SkillForge — Comment Remover</title>
 </head>
 <body>
-<div id="left">
-  <div id="detected">Detected language: None</div>
-  <textarea id="codeInput" placeholder="Paste your code here..."></textarea>
-  <button id="processBtn">Analyze & Remove Comments</button>
-  <div id="output"></div>
-  <button id="copyBtn" style="display:none;">Copy Clean Code</button>
-</div>
-<div id="right">
-  <h3>Extracted Comments</h3>
-  <div id="commentsLog"></div>
-  <h3>Functions Found</h3>
-  <div id="functionsLog"></div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>
-const codeInput=document.getElementById('codeInput');
-const detected=document.getElementById('detected');
-const output=document.getElementById('output');
-const commentsLog=document.getElementById('commentsLog');
-const functionsLog=document.getElementById('functionsLog');
-const processBtn=document.getElementById('processBtn');
-const copyBtn=document.getElementById('copyBtn');
+  <div class="top-bar">
+    <h1>SkillForge</h1>
+    <p>SkillForge For All Developers</p>
+  </div>
+  <div class="container">
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Raw-Editor.html">Raw Editor</a></li>
+        <li><a href="All-html-tags.html">All HTML Tags</a></li>
+        <li><a href="comment-remover.html">Comment Remover</a></li>
+        <li><a href="Data-Generator.html">Data Generator</a></li>
+      </ul>
+    </nav>
 
-function detectLanguage(code){
-  const result=hljs.highlightAuto(code);
-  return result.language||'plaintext';
-}
+    <div class="content">
+      <h2>Code Analyzer & Comment Remover</h2>
+      <p>Paste code, detect language, remove comments and extract functions.</p>
 
-function removeComments(code,lang){
-  let regexes=[];
-  switch(lang){
-    case 'javascript':
-    case 'java':
-    case 'c':
-    case 'cpp':
-    case 'csharp':
-    case 'go':
-    case 'kotlin':
-    case 'scala':
-    case 'rust':
-    case 'swift':
-    case 'typescript':
-    case 'php':
-      regexes=[/\/\/.*$/gm,/\/\*[\s\S]*?\*\//gm];
-      break;
-    case 'python':
-    case 'ruby':
-    case 'perl':
-    case 'shell':
-    case 'r':
-      regexes=[/#.*$/gm];
-      break;
-    case 'html':
-    case 'xml':
-      regexes=[/<!--[\s\S]*?-->/gm];
-      break;
-    case 'sql':
-      regexes=[/--.*$/gm,/\/\*[\s\S]*?\*\//gm];
-      break;
-    default:
-      regexes=[/\/\/.*$/gm,/\/\*[\s\S]*?\*\//gm,/#.*$/gm,/<!--[\s\S]*?-->/gm];
-  }
-  let comments=[];
-  regexes.forEach(r=>{
-    code.replace(r,m=>{comments.push(m);return m;});
-  });
-  let clean=code;
-  regexes.forEach(r=>{
-    clean=clean.replace(r,'');
-  });
-  return {clean,comments};
-}
+      <div id="detected">Detected language: None</div>
+      <textarea id="codeInput" placeholder="Paste your code here..."></textarea>
+      <button id="processBtn">Analyze & Remove Comments</button>
+      <div id="output"></div>
+      <button id="copyBtn" style="display:none;">Copy Clean Code</button>
 
-function extractFunctionNames(code,lang){
-  let names=[];
-  if(['javascript','typescript','java','c','cpp','csharp','go','kotlin','scala','swift','php'].includes(lang)){
-    let matches=code.match(/function\s+([a-zA-Z0-9_]+)|([a-zA-Z0-9_]+)\s*\([^)]*\)\s*\{/g)||[];
-    names=matches.map(m=>{
-      let n=m.match(/function\s+([a-zA-Z0-9_]+)/);
-      if(n) return n[1];
-      n=m.match(/^([a-zA-Z0-9_]+)/);
-      return n?n[1]:m;
+      <h3>Extracted Comments</h3>
+      <div id="commentsLog"></div>
+      <h3>Functions Found</h3>
+      <div id="functionsLog"></div>
+    </div>
+  </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+    // Scoped DOM references
+    const codeInput=document.getElementById('codeInput');
+    const detected=document.getElementById('detected');
+    const output=document.getElementById('output');
+    const commentsLog=document.getElementById('commentsLog');
+    const functionsLog=document.getElementById('functionsLog');
+    const processBtn=document.getElementById('processBtn');
+    const copyBtn=document.getElementById('copyBtn');
+
+    function detectLanguage(code){
+      try { const result=hljs.highlightAuto(code); return result.language||'plaintext'; }
+      catch(e){ return 'plaintext'; }
+    }
+
+    function removeComments(code,lang){
+      let regexes = [];
+      switch (lang) {
+        case 'javascript':
+        case 'java':
+        case 'c':
+        case 'cpp':
+        case 'csharp':
+        case 'go':
+        case 'kotlin':
+        case 'scala':
+        case 'rust':
+        case 'swift':
+        case 'typescript':
+        case 'php':
+          regexes = [/\/\/.*$/gm, new RegExp('\\/\\*[\\s\\S]*?\\*\\/','gm')];
+          break;
+        case 'python':
+        case 'ruby':
+        case 'perl':
+        case 'shell':
+        case 'r':
+          regexes = [/#.*$/gm];
+          break;
+        case 'html':
+        case 'xml':
+          regexes = [new RegExp('<!--[\\s\\S]*?-->','gm')];
+          break;
+        case 'sql':
+          regexes = [/--.*$/gm, new RegExp('\\/\\*[\\s\\S]*?\\*\\/','gm')];
+          break;
+        default:
+          regexes = [/\/\/.*$/gm, new RegExp('\\/\\*[\\s\\S]*?\\*\\/','gm'), /#.*$/gm, new RegExp('<!--[\\s\\S]*?-->','gm')];
+      }
+      let comments=[];
+      regexes.forEach(r=>{ code.replace(r,m=>{comments.push(m);return m;}); });
+      let clean=code;
+      regexes.forEach(r=>{ clean=clean.replace(r,''); });
+      return {clean,comments};
+    }
+
+    function extractFunctionNames(code,lang){
+      let names=[];
+      if(['javascript','typescript','java','c','cpp','csharp','go','kotlin','scala','swift','php'].includes(lang)){
+        let matches=code.match(/function\s+([a-zA-Z0-9_]+)|([a-zA-Z0-9_]+)\s*\([^)]*\)\s*\{/g)||[];
+        names=matches.map(m=>{ let n=m.match(/function\s+([a-zA-Z0-9_]+)/); if(n) return n[1]; n=m.match(/^([a-zA-Z0-9_]+)/); return n?n[1]:m; });
+      } else if(lang==='python' || lang==='ruby'){
+        let matches=code.match(/def\s+([a-zA-Z0-9_]+)/g)||[]; names=matches.map(m=>m.replace(/def\s+/,''));
+      } else if(lang==='rust'){
+        let matches=code.match(/fn\s+([a-zA-Z0-9_]+)/g)||[]; names=matches.map(m=>m.replace(/fn\s+/,''));
+      }
+      return names;
+    }
+
+    codeInput.addEventListener('input',()=>{ const lang=detectLanguage(codeInput.value); detected.innerHTML=`Detected language: ${lang.toUpperCase()}`; });
+
+    processBtn.addEventListener('click',()=>{
+      const code=codeInput.value; const lang=detectLanguage(code);
+      const {clean,comments}=removeComments(code,lang);
+      output.textContent=clean.trim(); commentsLog.textContent=comments.join('\n')||'None';
+      const funcs=extractFunctionNames(code,lang); functionsLog.textContent=funcs.join('\n')||'None';
+      copyBtn.style.display='inline-block';
     });
-  } else if(lang==='python' || lang==='ruby'){
-    let matches=code.match(/def\s+([a-zA-Z0-9_]+)/g)||[];
-    names=matches.map(m=>m.replace(/def\s+/,''));
-  } else if(lang==='rust'){
-    let matches=code.match(/fn\s+([a-zA-Z0-9_]+)/g)||[];
-    names=matches.map(m=>m.replace(/fn\s+/,''));
-  }
-  return names;
-}
 
-codeInput.addEventListener('input',()=>{
-  const lang=detectLanguage(codeInput.value);
-  detected.innerHTML=`Detected language: ${lang.toUpperCase()}`;
-});
-
-processBtn.addEventListener('click',()=>{
-  const code=codeInput.value;
-  const lang=detectLanguage(code);
-  const {clean,comments}=removeComments(code,lang);
-  output.textContent=clean.trim();
-  commentsLog.textContent=comments.join('\n')||'None';
-  const funcs=extractFunctionNames(code,lang);
-  functionsLog.textContent=funcs.join('\n')||'None';
-  copyBtn.style.display='inline-block';
-});
-
-copyBtn.addEventListener('click',()=>{
-  navigator.clipboard.writeText(output.textContent);
-});
-</script>
+    copyBtn.addEventListener('click',()=>{ navigator.clipboard.writeText(output.textContent); });
+    </script>
+<script src="js/ui-animations.js"></script>
 </body>
 </html>

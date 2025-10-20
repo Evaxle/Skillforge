@@ -1,0 +1,4 @@
+.data-generator textarea#htmlCode { width: 100%; height: calc(40vh - 80px); min-height: 140px; background: #0f0f0f; color: #eee; border: 1px solid rgba(255,69,0,0.04); padding: 10px; font-family: monospace; border-radius: 8px; }
+.data-url-container { border: 1px solid rgba(255,140,0,0.04); padding: 10px; height: 120px; overflow: auto; background: var(--card-bg, rgba(255,255,255,0.02)); color: #ddd; border-radius: 8px; }
+.data-generator button { margin-top: 8px; }
+.data-generator button:hover { opacity: 0.98; }

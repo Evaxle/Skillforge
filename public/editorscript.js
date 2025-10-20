@@ -1,14 +1,15 @@
 class EditorApp {
   constructor() {
-    // Core elements
     this.editor = document.getElementById('editor')
     this.tabsContainer = document.getElementById('tabs')
     this.lineNumbers = document.getElementById('lineNumbers')
     this.livePreview = document.getElementById('livePreview')
     this.langDisplay = document.getElementById('langDisplay')
     this.langSelector = document.getElementById('langSelector')
+    this.resizer = document.querySelector('.resizer')
+    this.editorWrapper = document.querySelector('.editor-area')
+    this.previewWrapper = document.querySelector('.preview-area')
 
-    // Top bar buttons
     this.saveBtn = document.getElementById('saveBtn')
     this.saveAsBtn = document.getElementById('saveAsBtn')
     this.openFileBtn = document.getElementById('openFileBtn')
@@ -24,7 +25,7 @@ class EditorApp {
     this.autosaveInterval = null
     this.livePreviewVisible = false
     this.consoleWindow = null
-    window.editorApp = this // ensure global access for history restore
+    window.editorApp = this
     this.bindEvents()
     this.init()
   }
@@ -118,9 +119,11 @@ class EditorApp {
     this.updateLangDisplay(tabs[tab].language || 'text')
     if (this.livePreviewVisible && tabs[tab].language === 'html') {
       this.livePreview.style.display = 'block'
+      this.livePreview.style.opacity = '1'
       this.livePreview.srcdoc = this.editor.value
     } else {
       this.livePreview.style.display = 'none'
+      this.livePreview.style.opacity = '0'
     }
   }
 
@@ -269,9 +272,12 @@ class EditorApp {
     const tabs = this.getTabs()
     if (this.currentTab && tabs[this.currentTab].language === 'html' && this.livePreviewVisible) {
       this.livePreview.style.display = 'block'
+      this.livePreview.style.opacity = '1'
       this.livePreview.srcdoc = this.editor.value
+      this.togglePreviewBtn.setAttribute('aria-pressed', 'true')
     } else {
       this.livePreview.style.display = 'none'
+      this.togglePreviewBtn.setAttribute('aria-pressed', 'false')
     }
   }
 
@@ -347,6 +353,32 @@ class EditorApp {
     }
 
     this.togglePreviewBtn.onclick = () => this.toggleLivePreview()
+    // Resizer drag
+    if (this.resizer) {
+      let dragging = false
+      let startX = 0
+      let startEditorWidth = 0
+      this.resizer.addEventListener('pointerdown', (e) => {
+        dragging = true
+        startX = e.clientX
+        startEditorWidth = this.editorWrapper.getBoundingClientRect().width
+        document.body.style.userSelect = 'none'
+        this.resizer.setPointerCapture(e.pointerId)
+      })
+      window.addEventListener('pointermove', (e) => {
+        if (!dragging) return
+        const dx = e.clientX - startX
+        const newEditorWidth = Math.max(240, startEditorWidth + dx)
+        const containerWidth = this.editorWrapper.parentElement.getBoundingClientRect().width
+        const previewWidth = Math.max(200, containerWidth - newEditorWidth - 16)
+        this.editorWrapper.style.flex = `0 0 ${newEditorWidth}px`
+        this.previewWrapper.style.flex = `0 0 ${previewWidth}px`
+      })
+      window.addEventListener('pointerup', (e) => {
+        dragging = false
+        document.body.style.userSelect = ''
+      })
+    }
   
     document.addEventListener('keydown', e => {
       if (e.ctrlKey && e.key === 's') {

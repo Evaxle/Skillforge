@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="Favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/raw-styles.css">
+  <title>SkillForge — Raw Editor</title>
+</head>
+<script>
+function openfeatured(url) {
+      const newTab = window.open("about:blank", "_blank");
+      if (!newTab) {
+        alert("Popup blocked! Please allow popups for this site.");
+        return;
+      }
+      const doc = newTab.document;
+      doc.open();
+      doc.write(`<!DOCTYPE html>
+        <html>
+        <head>
+          <title>Editor</title>
+          <style>
+            body, html { margin: 0; padding: 0; height: 100%; }
+            iframe { border: none; width: 100vw; height: 100vh; }
+          </style>
+        </head>
+        <body>
+          <iframe src="${url}" allowfullscreen></iframe>
+        </body>
+        </html>`);
+      doc.close();
+    }
+
+</script>
+<body class="raw-editor">
+    <div class="top-bar">
+        <h1>SkillForge</h1>
+        <p>SkillForge For All Developers</p>
+    </div>
+    <div class="container">
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Raw-Editor.html">Raw Editor</a></li>
+                <li><a href="All-html-tags.html">All HTML Tags</a></li>
+                <li><a href="comment-remover.html">Comment Remover</a></li>
+                <li><a href="Data-Generator.html">Data Generator</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+         <div class="top-bar">
+    <button id="saveBtn">Save</button>
+    <button id="saveAsBtn">Save As</button>
+    <button id="openFileBtn">Open File</button>
+    <button id="runHtmlBtn">Run HTML</button>
+    <button id="runJsBtn">Run JS</button>
+    <button id="runPythonBtn">Run Python</button>
+    <button id="viewHistoryBtn">History</button>
+    <button id="settingsBtn">Settings</button>
+    <p>Editor using too much memory?</p><button onclick="openfeatured('editor.html')">Click This</button>
+</div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="editor-container">
+    <div class="editor-pane">
+      <div class="line-numbers" id="lineNumbers"></div>
+      <textarea id="editor" spellcheck="false"></textarea>
+    </div>
+    <iframe id="livePreview" style="display:none;"></iframe>
+  </div>
+
+  <div class="footer-bar">
+    <div id="langDisplay">Language: text</div>
+    <select id="langSelector">
+      <option value="text">Text</option>
+      <option value="html">HTML</option>
+      <option value="js">JavaScript</option>
+      <option value="python">Python</option>
+    </select>
+    <button id="togglePreviewBtn">Toggle Preview</button>
+  </div>
+  </div>
+</body>
+<script src="js/raw-script.js"></script>
+</html>
